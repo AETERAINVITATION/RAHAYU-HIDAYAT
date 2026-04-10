@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Invitation</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+
+html,body{
+  overflow-x:hidden; /* FIX GESER SAMPING */
+  background:#000;
+  color:#fff;
+}
+
+/* OPENING */
+#opening{
+  position:fixed;
+  width:100%;
+  height:100vh;
+  background:#000;
+  z-index:99999;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+#guest{margin-bottom:20px;font-size:18px;}
+
+/* DOOR */
+.door{
+  position:absolute;
+  width:50%;
+  height:100%;
+  object-fit:cover;
+  pointer-events:none;
+  transition:1.2s;
+}
+.left{left:0;}
+.right{right:0;}
+.open .left{transform:translateX(-100%);}
+.open .right{transform:translateX(100%);}
+
+/* BUTTON */
+.open-btn,.copy-btn{
+  padding:12px 28px;
+  border-radius:40px;
+  border:1px solid rgba(212,191,163,0.7);
+  background:rgba(0,0,0,0.5);
+  color:#d4bfa3;
+  backdrop-filter:blur(6px);
+  cursor:pointer;
+}
+
+/* SECTION */
+.section{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transform:translateY(40px);
+  transition:0.8s;
+}
+.section.show{opacity:1;transform:translateY(0);}
+
+/* VIDEO (OPTIMIZED) */
+.video-wrap{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+}
+
+.video-bg{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:blur(12px) brightness(0.5); /* LEBIH RINGAN */
+  transform:scale(1.1);
+}
+
+.video-main{
+  position:relative;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+/* BG */
+.bg-section{
+  position:relative;
+  background:url('backgrong.jpg') center/cover no-repeat;
+}
+.bg-section::before{
+  content:'';
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+}
+
+.inner{
+  position:relative;
+  z-index:2;
+  max-width:800px;
+  width:100%;
+  margin:auto;
+  text-align:center;
+}
+
+/* GALERI */
+.gallery{
+  max-width:400px;
+  margin:auto;
+  overflow:hidden;
+}
+.gallery-track{
+  display:flex;
+  transition:0.4s;
+}
+.gallery img{
+  width:100%;
+  border-radius:16px;
+}
+
+/* MAP */
+.map-container{
+  width:100%;
+  max-width:600px;
+  height:300px;
+  margin:auto;
+  border-radius:16px;
+  overflow:hidden;
+}
+
+/* AMPLOP */
+.amp-item{margin-bottom:25px;}
+.amp-item img{width:90px;}
+
+p{text-shadow:0 2px 5px rgba(0,0,0,0.7);}
+
+/* FLOWER (LIGHTWEIGHT) */
+.flower{
+  position:fixed;
+  top:-20px;
+  width:10px;
+  height:10px;
+  background:#d4bfa3;
+  border-radius:50%;
+  opacity:0.4;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+  }
+}
+
+/* CREDIT */
+.credit{
+  text-align:center;
+  padding:20px;
+  font-size:12px;
+  color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="music.mp3" loop></audio>
+
+<!-- FLOWER (LIGHT) -->
+<script>
+for(let i=0;i<10;i++){
+  let f=document.createElement("div");
+  f.className="flower";
+  f.style.left=Math.random()*100+"%";
+  f.style.animationDuration=(6+Math.random()*4)+"s";
+  document.body.appendChild(f);
+}
+</script>
+
+<!-- OPENING -->
+<div id="opening">
+  <img src="door-left.png" class="door left">
+  <img src="door-right.png" class="door right">
+
+  <div id="guest">Kepada Yth.<br><strong id="guestName">Tamu Undangan</strong></div>
+
+  <button class="open-btn" onclick="openInvite()">BUKA UNDANGAN</button>
+</div>
+
+<div id="content">
+
+<!-- VIDEO -->
+<script>
+for(let i=1;i<=8;i++){
+  document.write(`
+  <div class="section">
+    <div class="video-wrap">
+      <video class="video-bg" src="${i}.mp4" muted autoplay loop playsinline></video>
+      <video class="video-main" src="${i}.mp4" muted playsinline></video>
+    </div>
+  </div>
+  `);
+}
+</script>
+
+<!-- GALERI -->
+<div class="section bg-section">
+  <div class="inner">
+    <div class="gallery">
+      <div class="gallery-track" id="track">
+        <img src="GALERI (1).jpg">
+        <img src="GALERI (2).jpg">
+        <img src="GALERI (3).jpg">
+        <img src="GALERI (4).jpg">
+        <img src="GALERI (5).jpg">
+        <img src="GALERI (6).jpg">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="section bg-section">
+  <div class="inner">
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3957.6175213126808!2d112.43305!3d-7.2842848!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7804a98cc9d591%3A0xdcbc7b451be6bc49!2sMasjid%20Roudatul%20Jannah%20Kalipang!5e0!3m2!1sen!2sid!4v1775469451138!5m2!1sen!2sid"
+      width="100%" height="100%" style="border:0;"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- AMPLOP -->
+<div class="section bg-section">
+  <div class="inner">
+    <div class="amp-item">
+      <img src="superbank.png">
+      <p>SUPERBANK A.N Reygita Arintya A.P</p>
+      <p id="rek1">000028573566</p>
+      <button class="copy-btn" onclick="copyText('rek1')">SALIN</button>
+    </div>
+
+    <div class="amp-item">
+      <img src="shopeepay.png">
+      <p>SHOPEEPAY A.N Reygita Arin</p>
+      <p id="rek2">085784968427</p>
+      <button class="copy-btn" onclick="copyText('rek2')">SALIN</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="credit">© TheWeddingOfReygita&Kautsar</div>
+
+<script>
+
+/* NAMA TAMU */
+const params=new URLSearchParams(window.location.search);
+if(params.get("to")){
+  document.getElementById("guestName").innerText=params.get("to");
+}
+
+/* OPEN */
+function openInvite(){
+  document.getElementById("opening").classList.add("open");
+
+  let music=document.getElementById("music");
+  music.volume=0;
+  music.play();
+
+  let fade=setInterval(()=>{
+    if(music.volume<1) music.volume+=0.05;
+    else clearInterval(fade);
+  },200);
+
+  setTimeout(()=>{opening.style.display="none";},1200);
+}
+
+/* VIDEO CONTROL */
+const sections=document.querySelectorAll('.section');
+const videos=document.querySelectorAll('.video-main');
+
+videos.forEach((v,i)=>{
+  v.onended=()=>{
+    if(sections[i+1]) sections[i+1].scrollIntoView({behavior:'smooth'});
+  }
+});
+
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    let v=x.target.querySelector(".video-main");
+    if(x.isIntersecting){
+      x.target.classList.add("show");
+      if(v){v.currentTime=0;v.play();}
+    }else{
+      if(v){v.pause();}
+    }
+  });
+},{threshold:0.6});
+
+sections.forEach(s=>obs.observe(s));
+
+/* COPY */
+function copyText(id){
+  navigator.clipboard.writeText(document.getElementById(id).innerText);
+  alert("Disalin!");
+}
+
+/* GALERI */
+let index=0,total=6;
+const track=document.getElementById("track");
+
+setInterval(()=>{
+  index=(index+1)%total;
+  track.style.transform=`translateX(-${index*100}%)`;
+},3000);
+
+</script>
+
+</body>
+</html>
