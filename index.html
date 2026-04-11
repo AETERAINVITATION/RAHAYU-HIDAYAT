@@ -9,7 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 
 html,body{
-  overflow-x:hidden; /* FIX GESER SAMPING */
+  overflow-x:hidden;
   background:#000;
   color:#fff;
 }
@@ -28,7 +28,11 @@ html,body{
   text-align:center;
 }
 
-#guest{margin-bottom:20px;font-size:18px;}
+#guest{
+  margin-bottom:25px;
+  font-size:18px;
+  z-index:2; /* FIX AGAR SELALU DI ATAS */
+}
 
 /* DOOR */
 .door{
@@ -38,6 +42,7 @@ html,body{
   object-fit:cover;
   pointer-events:none;
   transition:1.2s;
+  z-index:1;
 }
 .left{left:0;}
 .right{right:0;}
@@ -53,6 +58,7 @@ html,body{
   color:#d4bfa3;
   backdrop-filter:blur(6px);
   cursor:pointer;
+  z-index:2;
 }
 
 /* SECTION */
@@ -67,7 +73,7 @@ html,body{
 }
 .section.show{opacity:1;transform:translateY(0);}
 
-/* VIDEO (OPTIMIZED) */
+/* VIDEO */
 .video-wrap{
   position:relative;
   width:100%;
@@ -80,7 +86,7 @@ html,body{
   width:100%;
   height:100%;
   object-fit:cover;
-  filter:blur(12px) brightness(0.5); /* LEBIH RINGAN */
+  filter:blur(12px) brightness(0.5);
   transform:scale(1.1);
 }
 
@@ -138,13 +144,7 @@ html,body{
   overflow:hidden;
 }
 
-/* AMPLOP */
-.amp-item{margin-bottom:25px;}
-.amp-item img{width:90px;}
-
-p{text-shadow:0 2px 5px rgba(0,0,0,0.7);}
-
-/* FLOWER (LIGHTWEIGHT) */
+/* FLOWER */
 .flower{
   position:fixed;
   top:-20px;
@@ -157,12 +157,9 @@ p{text-shadow:0 2px 5px rgba(0,0,0,0.7);}
 }
 
 @keyframes fall{
-  to{
-    transform:translateY(110vh);
-  }
+  to{transform:translateY(110vh);} 
 }
 
-/* CREDIT */
 .credit{
   text-align:center;
   padding:20px;
@@ -176,7 +173,6 @@ p{text-shadow:0 2px 5px rgba(0,0,0,0.7);}
 
 <audio id="music" src="music.mp3" loop></audio>
 
-<!-- FLOWER (LIGHT) -->
 <script>
 for(let i=0;i<10;i++){
   let f=document.createElement("div");
@@ -192,14 +188,16 @@ for(let i=0;i<10;i++){
   <img src="door-left.png" class="door left">
   <img src="door-right.png" class="door right">
 
-  <div id="guest">Kepada Yth.<br><strong id="guestName">Tamu Undangan</strong></div>
+  <div id="guest">
+    Kepada Yth.<br>
+    <strong id="guestName">Tamu Undangan</strong>
+  </div>
 
   <button class="open-btn" onclick="openInvite()">BUKA UNDANGAN</button>
 </div>
 
 <div id="content">
 
-<!-- VIDEO -->
 <script>
 for(let i=1;i<=8;i++){
   document.write(`
@@ -233,27 +231,7 @@ for(let i=1;i<=8;i++){
 <div class="section bg-section">
   <div class="inner">
     <div class="map-container">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3957.6175213126808!2d112.43305!3d-7.2842848!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7804a98cc9d591%3A0xdcbc7b451be6bc49!2sMasjid%20Roudatul%20Jannah%20Kalipang!5e0!3m2!1sen!2sid!4v1775469451138!5m2!1sen!2sid"
-      width="100%" height="100%" style="border:0;"></iframe>
-    </div>
-  </div>
-</div>
-
-<!-- AMPLOP -->
-<div class="section bg-section">
-  <div class="inner">
-    <div class="amp-item">
-      <img src="superbank.png">
-      <p>SUPERBANK A.N Reygita Arintya A.P</p>
-      <p id="rek1">000028573566</p>
-      <button class="copy-btn" onclick="copyText('rek1')">SALIN</button>
-    </div>
-
-    <div class="amp-item">
-      <img src="shopeepay.png">
-      <p>SHOPEEPAY A.N Reygita Arin</p>
-      <p id="rek2">085784968427</p>
-      <button class="copy-btn" onclick="copyText('rek2')">SALIN</button>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3957.6175213126808!2d112.43305!3d-7.2842848" width="100%" height="100%" style="border:0;"></iframe>
     </div>
   </div>
 </div>
@@ -283,7 +261,9 @@ function openInvite(){
     else clearInterval(fade);
   },200);
 
-  setTimeout(()=>{opening.style.display="none";},1200);
+  setTimeout(()=>{
+    document.getElementById("opening").style.display="none";
+  },1200);
 }
 
 /* VIDEO CONTROL */
@@ -309,12 +289,6 @@ const obs=new IntersectionObserver(e=>{
 },{threshold:0.6});
 
 sections.forEach(s=>obs.observe(s));
-
-/* COPY */
-function copyText(id){
-  navigator.clipboard.writeText(document.getElementById(id).innerText);
-  alert("Disalin!");
-}
 
 /* GALERI */
 let index=0,total=6;
